@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+  <!-- Left Column: Drag & Drop Upload Card -->
+  <div class="lg:col-span-5 card-surface rounded-xl p-6 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <h1 class="text-base font-semibold text-zinc-100">Batch Traffic Analysis</h1>
+        <span class="text-[11px] font-mono text-zinc-500">CSV / PCAP</span>
+      </div>
+      <p class="text-xs text-zinc-400 mb-6 leading-relaxed">
+        Upload network traffic logs (CSV) or packet capture files (PCAP) to extract connection flows and classify security threats in bulk.
+      </p>
+
+      {% if error_msg %}
+      <div class="rounded-lg bg-rose-500/10 border border-rose-500/30 p-3 text-xs text-rose-300 mb-4">
+        {{ error_msg }}
+      </div>
+      {% endif %}
+
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <label for="csvFile" id="dropzoneBox" class="block rounded-xl border border-dashed border-zinc-700/80 hover:border-sky-500/60 bg-zinc-950/60 p-8 text-center cursor-pointer transition mb-4">
+          <div class="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 mx-auto flex items-center justify-center mb-3 text-sky-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+            </svg>
+          </div>
+          <div class="text-xs font-medium text-zinc-200" id="selectedFileName">
+            Drop network log or capture file here or click to browse
+          </div>
+          <div class="text-[11px] text-zinc-500 mt-1">Supports CSV, PCAP, and PCAPNG formats</div>
+          <input id="csvFile" name="file" type="file" accept=".csv,.txt,.pcap,.pcapng,.cap" required class="hidden">
+        </label>
+
+        <button type="submit" class="w-full py-2.5 rounded-lg text-xs font-medium bg-zinc-100 hover:bg-white text-zinc-950 transition font-medium shadow-sm">
+          Analyze Network Flows
+        </button>
+      </form>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-zinc-800/80 flex items-center justify-between">
+      <div>
+        <div class="text-xs font-medium text-zinc-300">Sample Network Traffic</div>
+        <div class="text-[11px] text-zinc-500">Pre-formatted sample flows for testing</div>
+      </div>
+      <a href="/api/download-sample-csv" class="px-3 py-1.5 rounded-lg text-xs font-mono bg-zinc-800 hover:bg-zinc-700 text-zinc-200 transition">
+        sample.csv &darr;
+      </a>
+    </div>
+  </div>
+
+  <!-- Right Column: Batch Results -->
+  <div class="lg:col-span-7">
+    {% if summary %}
+    <div class="card-surface rounded-xl p-6 mb-6">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-sm font-semibold text-zinc-100">Batch Prediction Summary</h2>
+          <p class="text-xs text-zinc-500 mt-0.5">Processed in {{ "%.2f"|format(summary.processing_time_ms) }} ms ({{ "%.4f"|format(summary.per_sample_ms) }} ms / flow)</p>
+        </div>
+        <a href="/api/download-predictions" class="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-emerald-500 hover:bg-emerald-400 text-zinc-950 transition font-medium">
+          Download Annotated Log &darr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+        <div class="rounded-lg bg-zinc-950 border border-zinc-800/80 p-3">
+          <div class="text-[11px] text-zinc-500">Total Flows</div>
+          <div class="text-base font-semibold font-mono text-zinc-100 mt-0.5">{{ "{:,}".format(summary.total_rows) }}</div>
+        </div>
+        <div class="rounded-lg bg-zinc-950 border border-zinc-800/80 p-3">
+          <div class="text-[11px] text-zinc-500">Threats Flagged</div>
+          <div class="text-base font-semibold font-mono text-rose-400 mt-0.5">{{ "{:,}".format(summary.anomalies_detected) }}</div>
+        </div>
+        <div class="rounded-lg bg-zinc-950 border border-zinc-800/80 p-3">
+          <div class="text-[11px] text-zinc-500">Benign Traffic</div>
+          <div class="text-base font-semibold font-mono text-emerald-400 mt-0.5">{{ "{:,}".format(summary.benign_flows) }}</div>
+        </div>
+        <div class="rounded-lg bg-zinc-950 border border-zinc-800/80 p-3">
+          <div class="text-[11px] text-zinc-500">Latency / Flow</div>
+          <div class="text-base font-semibold font-mono text-sky-400 mt-0.5">{{ "%.4f"|format(summary.per_sample_ms) }} ms</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-surface rounded-xl p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xs font-medium text-zinc-300 uppercase tracking-wider">Classification Preview</h3>
+        <div class="flex gap-1.5">
+          <button type="button" onclick="filterUploadRows('all', this)" class="upload-tab px-2.5 py-1 rounded text-xs bg-zinc-800 text-zinc-100 transition">All</button>
+          <button type="button" onclick="filterUploadRows('ANOMALY', this)" class="upload-tab px-2.5 py-1 rounded text-xs text-zinc-400 hover:text-zinc-200 transition">Threats</button>
+          <button type="button" onclick="filterUploadRows('BENIGN', this)" class="upload-tab px-2.5 py-1 rounded text-xs text-zinc-400 hover:text-zinc-200 transition">Benign</button>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto max-h-96">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-zinc-800 text-[11px] text-zinc-500 uppercase tracking-wider">
+              <th class="py-2 pr-2">#</th>
+              <th class="py-2 px-2">Protocol</th>
+              <th class="py-2 px-2">Service</th>
+              <th class="py-2 px-2">Bytes</th>
+              <th class="py-2 px-2">Classification</th>
+              <th class="py-2 pl-2 text-right">Confidence</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800/60 font-mono">
+            {% for row in predictions %}
+            <tr class="upload-pred-row" data-status="{{ row.status }}">
+              <td class="py-2.5 pr-2 text-zinc-500">{{ loop.index }}</td>
+              <td class="py-2.5 px-2 text-zinc-300">{{ row.get('protocol_type', 'tcp') }}</td>
+              <td class="py-2.5 px-2 font-sans text-zinc-400">{{ row.get('service', 'http') }}</td>
+              <td class="py-2.5 px-2 text-zinc-400">{{ row.get('src_bytes', 0) }} / {{ row.get('dst_bytes', 0) }}</td>
+              <td class="py-2.5 px-2"><span class="px-2 py-0.5 rounded text-[11px] font-medium badge-{{ row.predicted_attack_type|lower }}">{{ row.predicted_attack_type }}</span></td>
+              <td class="py-2.5 pl-2 text-right text-zinc-300">{{ "%.2f"|format(row.confidence_pct) }}%</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="card-surface rounded-xl h-full min-h-[360px] p-8 flex flex-col items-center justify-center text-center">
+      <div class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 mb-3">
+        <svg class="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </div>
+      <h2 class="text-sm font-medium text-zinc-200">No Traffic Log Uploaded Yet</h2>
+      <p class="text-xs text-zinc-500 max-w-sm mt-1">
+        Select a network log or packet capture file on the left, or download <code class="font-mono text-zinc-400">sample.csv</code> to run batch threat detection.
+      </p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const fileInput = document.getElementById('csvFile');
+  const fileNameLabel = document.getElementById('selectedFileName');
+  if (fileInput) {
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) {
+        const f = fileInput.files[0];
+        fileNameLabel.innerHTML = `<span class="font-mono text-sky-400">${f.name}</span> <span class="text-zinc-500">(${(f.size / 1024).toFixed(1)} KB)</span>`;
+      }
+    });
+  }
+
+  function filterUploadRows(status, btn) {
+    document.querySelectorAll('.upload-tab').forEach(b => {
+      b.className = 'upload-tab px-2.5 py-1 rounded text-xs text-zinc-400 hover:text-zinc-200 transition';
+    });
+    btn.className = 'upload-tab px-2.5 py-1 rounded text-xs bg-zinc-800 text-zinc-100 transition';
+    document.querySelectorAll('.upload-pred-row').forEach(row => {
+      row.style.display = (status === 'all' || row.getAttribute('data-status') === status) ? '' : 'none';
+    });
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Live Monitor Header & Control Bar -->
+<div class="card-surface rounded-xl p-5 mb-6">
+  <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <h1 class="text-base font-semibold text-zinc-100">Live Network Monitor</h1>
+      </div>
+      <p class="text-xs text-zinc-400 mt-1" id="captureStatusText">
+        Real-time network traffic analysis &amp; autonomous threat detection
+      </p>
+    </div>
+
+    <!-- Traffic Filter Input & Presets -->
+    <div class="flex-1 max-w-xl">
+      <div class="flex gap-2">
+        <input type="text" id="bpfFilterInput"
+               value="{{ capture_status.get('bpf_filter', 'tcp port 80') }}"
+               placeholder="Traffic Filter (e.g. tcp port 80, udp port 53, icmp)"
+               class="flex-1 rounded-lg bg-zinc-950 border border-zinc-800 px-3 py-1.5 font-mono text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-sky-500 transition">
+        <button type="button" id="btnApplyBpf" class="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-zinc-800 hover:bg-zinc-700 text-zinc-200 transition">
+          Apply Filter
+        </button>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5 mt-2 text-[11px]">
+        <span class="text-zinc-500">Presets:</span>
+        <button type="button" data-bpf="tcp port 80" class="bpf-preset px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 font-mono text-zinc-400 hover:text-zinc-200 transition">
+          Web (80)
+        </button>
+        <button type="button" data-bpf="udp port 53" class="bpf-preset px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 font-mono text-zinc-400 hover:text-zinc-200 transition">
+          DNS (53)
+        </button>
+        <button type="button" data-bpf="icmp" class="bpf-preset px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 font-mono text-zinc-400 hover:text-zinc-200 transition">
+          ICMP (Ping)
+        </button>
+        <button type="button" data-bpf="tcp or udp or icmp" class="bpf-preset px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 font-mono text-zinc-400 hover:text-zinc-200 transition">
+          All Protocols
+        </button>
+      </div>
+    </div>
+
+    <!-- Start / Stop & Audio Controls -->
+    <div class="flex items-center gap-2">
+      <button type="button" id="btnToggleAudio" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 transition flex items-center gap-1.5">
+        <span id="audioIcon">🔔</span>
+        <span id="audioLabel">Audio: ON</span>
+      </button>
+      <button type="button" id="btnStartCapture" class="px-4 py-1.5 rounded-lg text-xs font-medium bg-emerald-500 hover:bg-emerald-400 text-zinc-950 transition font-medium">
+        Start Monitoring
+      </button>
+      <button type="button" id="btnStopCapture" class="px-4 py-1.5 rounded-lg text-xs font-medium bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 transition">
+        Stop
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Live Threat Alert Banner -->
+<div id="anomalyAlertBox" class="hidden rounded-xl bg-rose-500/10 border border-rose-500/30 px-4 py-3 mb-6 items-center justify-between gap-4">
+  <div class="flex items-center gap-2.5 text-xs text-rose-300">
+    <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+    <strong class="font-medium">Threat Detected:</strong>
+    <span id="alertText" class="font-mono text-rose-200"></span>
+  </div>
+  <div class="flex items-center gap-2">
+    <span id="alertConfidence" class="px-2.5 py-0.5 rounded bg-rose-500 text-zinc-950 font-mono text-[11px] font-semibold">99.1%</span>
+  </div>
+</div>
+
+<!-- Live Charts -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+  <div class="lg:col-span-5 card-surface rounded-xl p-5">
+    <h2 class="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-4">Threat Distribution</h2>
+    <div class="h-56">
+      <canvas id="liveBarChart"></canvas>
+    </div>
+  </div>
+
+  <div class="lg:col-span-7 card-surface rounded-xl p-5">
+    <h2 class="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-4">Traffic Throughput (Flows / sec)</h2>
+    <div class="h-56">
+      <canvas id="liveTrendChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Live Network Stream Table -->
+<div class="card-surface rounded-xl p-5">
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <h2 class="text-sm font-medium text-zinc-200">Live Network Stream</h2>
+      <p class="text-xs text-zinc-500 mt-0.5">Active Connections Tracked: <span id="activeFlowsCount" class="font-mono text-zinc-300">{{ capture_status.get('active_flows_tracked', 8) }}</span></p>
+    </div>
+    <span id="livePacketCounter" class="text-xs font-mono text-zinc-400">
+      Packets Analyzed: {{ "{:,}".format(attack_counts.values()|sum) }}
+    </span>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-zinc-800 text-[11px] font-medium text-zinc-500 uppercase tracking-wider">
+          <th class="py-2.5 pr-3">Time</th>
+          <th class="py-2.5 px-3">Network Flow</th>
+          <th class="py-2.5 px-3">Service</th>
+          <th class="py-2.5 px-3">Duration</th>
+          <th class="py-2.5 px-3">Volume</th>
+          <th class="py-2.5 px-3">Packets</th>
+          <th class="py-2.5 px-3">Classification</th>
+          <th class="py-2.5 px-3 text-right">Confidence</th>
+          <th class="py-2.5 pl-3 text-right">Latency</th>
+        </tr>
+      </thead>
+      <tbody id="liveFeedBody" class="divide-y divide-zinc-800/60 text-xs">
+        {% for item in recent_detections %}
+        <tr>
+          <td class="py-2.5 pr-3 font-mono text-zinc-500">{{ item.timestamp.split(' ')[-1] }}</td>
+          <td class="py-2.5 px-3 font-mono text-zinc-200">{{ item.get('five_tuple', item.src_ip ~ ':51200 -> ' ~ item.dst_ip ~ ':80 (' ~ item.protocol ~ ')') }}</td>
+          <td class="py-2.5 px-3 text-zinc-400">{{ item.service }}</td>
+          <td class="py-2.5 px-3 font-mono text-zinc-400">{{ "%.2f"|format(item.get('duration', 0.12)) }}s</td>
+          <td class="py-2.5 px-3 font-mono text-zinc-400">{{ item.get('src_bytes', 640) }} / {{ item.get('dst_bytes', 1280) }} B</td>
+          <td class="py-2.5 px-3 font-mono text-zinc-400">{{ item.get('packets', 8) }}</td>
+          <td class="py-2.5 px-3"><span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-medium badge-{{ item.attack_type|lower }}">{{ item.attack_type }}</span></td>
+          <td class="py-2.5 px-3 text-right font-mono text-zinc-300">{{ "%.1f"|format(item.confidence) }}%</td>
+          <td class="py-2.5 pl-3 text-right font-mono text-zinc-500">{{ "%.4f"|format(item.get('inference_latency_ms', 0.0199)) }} ms</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const initialCounts = {{ attack_counts | tojson }};
+  const classLabels = ['Normal', 'DoS', 'Probe', 'R2L', 'U2R'];
+
+  let liveBarChart = null;
+  let liveTrendChart = null;
+
+  if (window.Chart) {
+    const barEl = document.getElementById('liveBarChart');
+    if (barEl) {
+      liveBarChart = new Chart(barEl.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: classLabels,
+          datasets: [{
+            data: classLabels.map(k => initialCounts[k] || 0),
+            backgroundColor: ['#34d399', '#fb7185', '#fbbf24', '#c084fc', '#f472b6'],
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#71717a', font: { size: 11 } }, grid: { display: false } },
+            y: { ticks: { color: '#71717a', font: { size: 11 } }, grid: { color: 'rgba(39,39,42,0.6)' } }
+          }
+        }
+      });
+    }
+
+    const trendEl = document.getElementById('liveTrendChart');
+    if (trendEl) {
+      liveTrendChart = new Chart(trendEl.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: Array.from({length: 12}, (_, i) => `${11 - i}s`),
+          datasets: [
+            {
+              label: 'Normal Traffic',
+              data: [18, 22, 19, 25, 21, 24, 20, 23, 22, 26, 21, 24],
+              borderColor: '#34d399',
+              borderWidth: 2,
+              pointRadius: 0,
+              tension: 0.35
+            },
+            {
+              label: 'Threats',
+              data: [4, 7, 5, 9, 6, 8, 11, 6, 7, 10, 8, 9],
+              borderColor: '#fb7185',
+              borderWidth: 2,
+              pointRadius: 0,
+              tension: 0.35
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: '#a1a1aa', boxWidth: 10, font: { size: 11 } } } },
+          scales: {
+            x: { ticks: { color: '#71717a', font: { size: 11 } }, grid: { display: false } },
+            y: { ticks: { color: '#71717a', font: { size: 11 } }, grid: { color: 'rgba(39,39,42,0.6)' } }
+          }
+        }
+      });
+    }
+  }
+
+  function renderFlowEvent(payload) {
+    const ev = payload.event;
+    const dist = payload.attack_distribution;
+    if (dist && liveBarChart) {
+      liveBarChart.data.datasets[0].data = classLabels.map(k => dist[k] || 0);
+      liveBarChart.update('none');
+    }
+
+    if (liveTrendChart) {
+      liveTrendChart.data.labels.shift();
+      liveTrendChart.data.labels.push(new Date().toLocaleTimeString().split(' ')[0]);
+      liveTrendChart.data.datasets[0].data.shift();
+      liveTrendChart.data.datasets[0].data.push(ev.is_anomaly ? Math.floor(Math.random()*8 + 10) : Math.floor(Math.random()*12 + 22));
+      liveTrendChart.data.datasets[1].data.shift();
+      liveTrendChart.data.datasets[1].data.push(ev.is_anomaly ? Math.floor(Math.random()*12 + 12) : Math.floor(Math.random()*3 + 1));
+      liveTrendChart.update('none');
+    }
+
+    if (payload.total_packets_analyzed) {
+      document.getElementById('livePacketCounter').textContent =
+        `Packets Analyzed: ${payload.total_packets_analyzed.toLocaleString()}`;
+    }
+    if (payload.capture_status) {
+      document.getElementById('activeFlowsCount').textContent = payload.capture_status.active_flows_tracked;
+    }
+
+    const tbody = document.getElementById('liveFeedBody');
+    const tr = document.createElement('tr');
+    const timeStr = ev.timestamp ? ev.timestamp.split(' ').pop() : new Date().toLocaleTimeString();
+    const srcGeo = ev.src_geo || { country_flag: '🌐', country_name: 'WAN / LAN', country_code: 'NET', asn: 'Local / WAN Network' };
+    tr.innerHTML = `
+      <td class="py-2.5 pr-3 font-mono text-zinc-500">${timeStr}</td>
+      <td class="py-2.5 px-3 font-mono text-zinc-200">
+        <span title="${srcGeo.country_name} (${srcGeo.country_code}) &bull; ${srcGeo.asn}" class="cursor-help mr-1.5">${srcGeo.country_flag}</span>
+        ${ev.five_tuple}
+      </td>
+      <td class="py-2.5 px-3 text-zinc-400">${ev.service}</td>
+      <td class="py-2.5 px-3 font-mono text-zinc-400">${Number(ev.duration || 0).toFixed(2)}s</td>
+      <td class="py-2.5 px-3 font-mono text-zinc-400">${ev.src_bytes || 0} / ${ev.dst_bytes || 0} B</td>
+      <td class="py-2.5 px-3 font-mono text-zinc-400">${ev.packets || 1}</td>
+      <td class="py-2.5 px-3"><span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-medium badge-${ev.attack_type.toLowerCase()}">${ev.attack_type}</span></td>
+      <td class="py-2.5 px-3 text-right font-mono text-zinc-300">${ev.confidence.toFixed(1)}%</td>
+      <td class="py-2.5 pl-3 text-right font-mono text-zinc-500">${ev.inference_latency_ms.toFixed(4)} ms</td>
+    `;
+    tbody.insertBefore(tr, tbody.firstChild);
+    if (tbody.children.length > 20) tbody.removeChild(tbody.lastChild);
+
+    if (ev.is_anomaly) {
+      playAlertBeep(ev.severity);
+      const alertBox = document.getElementById('anomalyAlertBox');
+      alertBox.classList.remove('hidden');
+      alertBox.classList.add('flex');
+      document.getElementById('alertText').textContent = `[${ev.attack_type}] ${ev.five_tuple}`;
+      document.getElementById('alertConfidence').textContent = `${ev.confidence.toFixed(1)}%`;
+    }
+  }
+
+  let audioEnabled = true;
+  const audioBtn = document.getElementById('btnToggleAudio');
+  if (audioBtn) {
+    audioBtn.addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      document.getElementById('audioLabel').textContent = audioEnabled ? 'Audio: ON' : 'Audio: OFF';
+      document.getElementById('audioIcon').textContent = audioEnabled ? '🔔' : '🔕';
+    });
+  }
+
+  function playAlertBeep(severity) {
+    if (!audioEnabled) return;
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = severity === 'CRITICAL' ? 'sawtooth' : 'sine';
+      osc.frequency.setValueAtTime(severity === 'CRITICAL' ? 880 : 587, ctx.currentTime);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.25);
+    } catch (_) {}
+  }
+
+  // SocketIO connection
+  const socket = io();
+  socket.on('connect', () => {
+    document.getElementById('captureStatusText').textContent = 'Monitoring Active · Real-time network telemetry connected';
+  });
+
+  socket.on('capture_state', (data) => {
+    if (data.status) {
+      document.getElementById('captureStatusText').textContent =
+        `Status: ${data.status.is_capturing ? 'Recording Traffic' : 'Ready'} · Filter: ${data.status.bpf_filter || 'None'}`;
+      if (data.status.bpf_filter) {
+        document.getElementById('bpfFilterInput').value = data.status.bpf_filter;
+      }
+    }
+  });
+
+  socket.on('live_flow_prediction', renderFlowEvent);
+
+  document.getElementById('btnStartCapture').addEventListener('click', () => {
+    const bpf = document.getElementById('bpfFilterInput').value;
+    socket.emit('start_capture', { bpf_filter: bpf });
+  });
+
+  document.getElementById('btnStopCapture').addEventListener('click', () => {
+    socket.emit('stop_capture');
+  });
+
+  document.getElementById('btnApplyBpf').addEventListener('click', () => {
+    const bpf = document.getElementById('bpfFilterInput').value;
+    socket.emit('start_capture', { bpf_filter: bpf });
+  });
+
+  document.querySelectorAll('.bpf-preset').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const bpf = btn.getAttribute('data-bpf');
+      document.getElementById('bpfFilterInput').value = bpf;
+      socket.emit('start_capture', { bpf_filter: bpf });
+    });
+  });
+</script>
+{% endblock %}

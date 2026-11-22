@@ -1,0 +1,2369 @@
+{
+  "best_model_key": "voting",
+  "best_model_name": "Soft Voting Ensemble (RF + ET + HGB)",
+  "best_model_metrics": {
+    "model_name": "Soft Voting Ensemble (RF + ET + HGB)",
+    "accuracy": 0.9838,
+    "precision": 0.9836,
+    "recall": 0.9838,
+    "f1_score": 0.9835,
+    "roc_auc": 0.9979,
+    "training_time_sec": 4.7869,
+    "inference_time_total_sec": 0.1226,
+    "inference_time_ms_per_sample": 0.0511,
+    "confusion_matrix": [
+      [
+        933,
+        1,
+        2,
+        9,
+        1
+      ],
+      [
+        0,
+        648,
+        0,
+        1,
+        0
+      ],
+      [
+        7,
+        0,
+        163,
+        2,
+        0
+      ],
+      [
+        5,
+        0,
+        0,
+        593,
+        2
+      ],
+      [
+        4,
+        0,
+        0,
+        5,
+        24
+      ]
+    ],
+    "roc_curve": {
+      "fpr": [
+        0.0,
+        0.0256,
+        0.0513,
+        0.0769,
+        0.1026,
+        0.1282,
+        0.1538,
+        0.1795,
+        0.2051,
+        0.2308,
+        0.2564,
+        0.2821,
+        0.3077,
+        0.3333,
+        0.359,
+        0.3846,
+        0.4103,
+        0.4359,
+        0.4615,
+        0.4872,
+        0.5128,
+        0.5385,
+        0.5641,
+        0.5897,
+        0.6154,
+        0.641,
+        0.6667,
+        0.6923,
+        0.7179,
+        0.7436,
+        0.7692,
+        0.7949,
+        0.8205,
+        0.8462,
+        0.8718,
+        0.8974,
+        0.9231,
+        0.9487,
+        0.9744,
+        1.0
+      ],
+      "tpr": [
+        0.0,
+        0.9849,
+        0.9875,
+        0.9877,
+        0.9937,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "per_class_metrics": {
+      "Normal": {
+        "precision": 0.9831,
+        "recall": 0.9863,
+        "f1_score": 0.9847,
+        "support": 946
+      },
+      "DoS": {
+        "precision": 0.9985,
+        "recall": 0.9985,
+        "f1_score": 0.9985,
+        "support": 649
+      },
+      "Probe": {
+        "precision": 0.9879,
+        "recall": 0.9477,
+        "f1_score": 0.9674,
+        "support": 172
+      },
+      "R2L": {
+        "precision": 0.9721,
+        "recall": 0.9883,
+        "f1_score": 0.9802,
+        "support": 600
+      },
+      "U2R": {
+        "precision": 0.8889,
+        "recall": 0.7273,
+        "f1_score": 0.8,
+        "support": 33
+      }
+    },
+    "classification_report_text": "              precision    recall  f1-score   support\n\n      Normal       0.98      0.99      0.98       946\n         DoS       1.00      1.00      1.00       649\n       Probe       0.99      0.95      0.97       172\n         R2L       0.97      0.99      0.98       600\n         U2R       0.89      0.73      0.80        33\n\n    accuracy                           0.98      2400\n   macro avg       0.97      0.93      0.95      2400\nweighted avg       0.98      0.98      0.98      2400\n",
+    "best_params": {
+      "estimators": [
+        "TunedRandomForest(220)",
+        "ExtraTrees(180)",
+        "HistGradientBoosting(150)"
+      ],
+      "voting": "soft",
+      "weights": [
+        2.5,
+        2.5,
+        1.5
+      ],
+      "features_count": 15
+    }
+  },
+  "models": {
+    "rf": {
+      "model_name": "Random Forest (GridSearchCV)",
+      "accuracy": 0.9867,
+      "precision": 0.9866,
+      "recall": 0.9867,
+      "f1_score": 0.9866,
+      "roc_auc": 0.9986,
+      "training_time_sec": 3.6932,
+      "inference_time_total_sec": 0.0121,
+      "inference_time_ms_per_sample": 0.0051,
+      "confusion_matrix": [
+        [
+          935,
+          0,
+          2,
+          8,
+          1
+        ],
+        [
+          0,
+          647,
+          2,
+          0,
+          0
+        ],
+        [
+          4,
+          1,
+          165,
+          2,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          594,
+          2
+        ],
+        [
+          4,
+          0,
+          0,
+          2,
+          27
+        ]
+      ],
+      "roc_curve": {
+        "fpr": [
+          0.0,
+          0.0256,
+          0.0513,
+          0.0769,
+          0.1026,
+          0.1282,
+          0.1538,
+          0.1795,
+          0.2051,
+          0.2308,
+          0.2564,
+          0.2821,
+          0.3077,
+          0.3333,
+          0.359,
+          0.3846,
+          0.4103,
+          0.4359,
+          0.4615,
+          0.4872,
+          0.5128,
+          0.5385,
+          0.5641,
+          0.5897,
+          0.6154,
+          0.641,
+          0.6667,
+          0.6923,
+          0.7179,
+          0.7436,
+          0.7692,
+          0.7949,
+          0.8205,
+          0.8462,
+          0.8718,
+          0.8974,
+          0.9231,
+          0.9487,
+          0.9744,
+          1.0
+        ],
+        "tpr": [
+          0.0,
+          0.9849,
+          0.993,
+          0.9951,
+          0.9993,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "per_class_metrics": {
+        "Normal": {
+          "precision": 0.9873,
+          "recall": 0.9884,
+          "f1_score": 0.9878,
+          "support": 946
+        },
+        "DoS": {
+          "precision": 0.9985,
+          "recall": 0.9969,
+          "f1_score": 0.9977,
+          "support": 649
+        },
+        "Probe": {
+          "precision": 0.9763,
+          "recall": 0.9593,
+          "f1_score": 0.9677,
+          "support": 172
+        },
+        "R2L": {
+          "precision": 0.9802,
+          "recall": 0.99,
+          "f1_score": 0.9851,
+          "support": 600
+        },
+        "U2R": {
+          "precision": 0.9,
+          "recall": 0.8182,
+          "f1_score": 0.8571,
+          "support": 33
+        }
+      },
+      "classification_report_text": "              precision    recall  f1-score   support\n\n      Normal       0.99      0.99      0.99       946\n         DoS       1.00      1.00      1.00       649\n       Probe       0.98      0.96      0.97       172\n         R2L       0.98      0.99      0.99       600\n         U2R       0.90      0.82      0.86        33\n\n    accuracy                           0.99      2400\n   macro avg       0.97      0.95      0.96      2400\nweighted avg       0.99      0.99      0.99      2400\n",
+      "best_params": {
+        "max_depth": 24,
+        "min_samples_split": 2,
+        "n_estimators": 100
+      }
+    },
+    "svm": {
+      "model_name": "SVM (RBF Kernel)",
+      "accuracy": 0.9158,
+      "precision": 0.9366,
+      "recall": 0.9158,
+      "f1_score": 0.9233,
+      "roc_auc": 0.9878,
+      "training_time_sec": 1.4159,
+      "inference_time_total_sec": 0.0757,
+      "inference_time_ms_per_sample": 0.0315,
+      "confusion_matrix": [
+        [
+          829,
+          0,
+          6,
+          65,
+          46
+        ],
+        [
+          13,
+          628,
+          5,
+          3,
+          0
+        ],
+        [
+          7,
+          1,
+          161,
+          1,
+          2
+        ],
+        [
+          15,
+          1,
+          6,
+          552,
+          26
+        ],
+        [
+          2,
+          0,
+          0,
+          3,
+          28
+        ]
+      ],
+      "roc_curve": {
+        "fpr": [
+          0.0,
+          0.0256,
+          0.0513,
+          0.0769,
+          0.1026,
+          0.1282,
+          0.1538,
+          0.1795,
+          0.2051,
+          0.2308,
+          0.2564,
+          0.2821,
+          0.3077,
+          0.3333,
+          0.359,
+          0.3846,
+          0.4103,
+          0.4359,
+          0.4615,
+          0.4872,
+          0.5128,
+          0.5385,
+          0.5641,
+          0.5897,
+          0.6154,
+          0.641,
+          0.6667,
+          0.6923,
+          0.7179,
+          0.7436,
+          0.7692,
+          0.7949,
+          0.8205,
+          0.8462,
+          0.8718,
+          0.8974,
+          0.9231,
+          0.9487,
+          0.9744,
+          1.0
+        ],
+        "tpr": [
+          0.0,
+          0.9113,
+          0.9503,
+          0.9622,
+          0.9837,
+          0.9866,
+          0.9883,
+          0.9892,
+          0.9892,
+          0.9894,
+          0.9914,
+          0.9914,
+          0.993,
+          0.9938,
+          0.9955,
+          0.9965,
+          0.9978,
+          0.9982,
+          0.9987,
+          0.9991,
+          0.9994,
+          0.9994,
+          0.9994,
+          0.9994,
+          0.9997,
+          0.9997,
+          0.9997,
+          0.9997,
+          0.9997,
+          0.9997,
+          0.9997,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "per_class_metrics": {
+        "Normal": {
+          "precision": 0.9573,
+          "recall": 0.8763,
+          "f1_score": 0.915,
+          "support": 946
+        },
+        "DoS": {
+          "precision": 0.9968,
+          "recall": 0.9676,
+          "f1_score": 0.982,
+          "support": 649
+        },
+        "Probe": {
+          "precision": 0.9045,
+          "recall": 0.936,
+          "f1_score": 0.92,
+          "support": 172
+        },
+        "R2L": {
+          "precision": 0.8846,
+          "recall": 0.92,
+          "f1_score": 0.902,
+          "support": 600
+        },
+        "U2R": {
+          "precision": 0.2745,
+          "recall": 0.8485,
+          "f1_score": 0.4148,
+          "support": 33
+        }
+      },
+      "classification_report_text": "              precision    recall  f1-score   support\n\n      Normal       0.96      0.88      0.92       946\n         DoS       1.00      0.97      0.98       649\n       Probe       0.90      0.94      0.92       172\n         R2L       0.88      0.92      0.90       600\n         U2R       0.27      0.85      0.41        33\n\n    accuracy                           0.92      2400\n   macro avg       0.80      0.91      0.83      2400\nweighted avg       0.94      0.92      0.92      2400\n",
+      "best_params": {
+        "C": 5.0,
+        "gamma": "auto",
+        "kernel": "rbf"
+      }
+    },
+    "ann": {
+      "model_name": "Deep ANN (3-Layer + Dropout)",
+      "accuracy": 0.9604,
+      "precision": 0.9644,
+      "recall": 0.9604,
+      "f1_score": 0.9617,
+      "roc_auc": 0.9935,
+      "training_time_sec": 2.9062,
+      "inference_time_total_sec": 0.001,
+      "inference_time_ms_per_sample": 0.0004,
+      "confusion_matrix": [
+        [
+          889,
+          1,
+          4,
+          34,
+          18
+        ],
+        [
+          0,
+          643,
+          6,
+          0,
+          0
+        ],
+        [
+          5,
+          2,
+          163,
+          2,
+          0
+        ],
+        [
+          8,
+          0,
+          1,
+          584,
+          7
+        ],
+        [
+          4,
+          0,
+          0,
+          3,
+          26
+        ]
+      ],
+      "roc_curve": {
+        "fpr": [
+          0.0,
+          0.0256,
+          0.0513,
+          0.0769,
+          0.1026,
+          0.1282,
+          0.1538,
+          0.1795,
+          0.2051,
+          0.2308,
+          0.2564,
+          0.2821,
+          0.3077,
+          0.3333,
+          0.359,
+          0.3846,
+          0.4103,
+          0.4359,
+          0.4615,
+          0.4872,
+          0.5128,
+          0.5385,
+          0.5641,
+          0.5897,
+          0.6154,
+          0.641,
+          0.6667,
+          0.6923,
+          0.7179,
+          0.7436,
+          0.7692,
+          0.7949,
+          0.8205,
+          0.8462,
+          0.8718,
+          0.8974,
+          0.9231,
+          0.9487,
+          0.9744,
+          1.0
+        ],
+        "tpr": [
+          0.0,
+          0.965,
+          0.9771,
+          0.9843,
+          0.9875,
+          0.9949,
+          0.9956,
+          0.9956,
+          0.996,
+          0.9962,
+          0.9968,
+          0.9973,
+          0.9975,
+          0.9975,
+          0.9975,
+          0.9975,
+          0.9975,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          0.9977,
+          1.0
+        ]
+      },
+      "per_class_metrics": {
+        "Normal": {
+          "precision": 0.9812,
+          "recall": 0.9397,
+          "f1_score": 0.96,
+          "support": 946
+        },
+        "DoS": {
+          "precision": 0.9954,
+          "recall": 0.9908,
+          "f1_score": 0.9931,
+          "support": 649
+        },
+        "Probe": {
+          "precision": 0.9368,
+          "recall": 0.9477,
+          "f1_score": 0.9422,
+          "support": 172
+        },
+        "R2L": {
+          "precision": 0.9374,
+          "recall": 0.9733,
+          "f1_score": 0.955,
+          "support": 600
+        },
+        "U2R": {
+          "precision": 0.5098,
+          "recall": 0.7879,
+          "f1_score": 0.619,
+          "support": 33
+        }
+      },
+      "classification_report_text": "              precision    recall  f1-score   support\n\n      Normal       0.98      0.94      0.96       946\n         DoS       1.00      0.99      0.99       649\n       Probe       0.94      0.95      0.94       172\n         R2L       0.94      0.97      0.96       600\n         U2R       0.51      0.79      0.62        33\n\n    accuracy                           0.96      2400\n   macro avg       0.87      0.93      0.89      2400\nweighted avg       0.96      0.96      0.96      2400\n",
+      "best_params": {
+        "hidden_layers": [
+          128,
+          64,
+          32
+        ],
+        "dropout": [
+          0.3,
+          0.2,
+          0.2
+        ],
+        "early_stopping_patience": 6,
+        "epochs_trained": 35
+      }
+    },
+    "tuned_rf": {
+      "model_name": "Tuned Random Forest (15-Feat)",
+      "accuracy": 0.9804,
+      "precision": 0.9803,
+      "recall": 0.9804,
+      "f1_score": 0.9801,
+      "roc_auc": 0.9924,
+      "training_time_sec": 43.5626,
+      "inference_time_total_sec": 0.0393,
+      "inference_time_ms_per_sample": 0.0164,
+      "confusion_matrix": [
+        [
+          928,
+          1,
+          2,
+          14,
+          1
+        ],
+        [
+          0,
+          647,
+          0,
+          2,
+          0
+        ],
+        [
+          7,
+          0,
+          163,
+          2,
+          0
+        ],
+        [
+          6,
+          0,
+          0,
+          592,
+          2
+        ],
+        [
+          3,
+          0,
+          0,
+          7,
+          23
+        ]
+      ],
+      "roc_curve": {
+        "fpr": [
+          0.0,
+          0.0256,
+          0.0513,
+          0.0769,
+          0.1026,
+          0.1282,
+          0.1538,
+          0.1795,
+          0.2051,
+          0.2308,
+          0.2564,
+          0.2821,
+          0.3077,
+          0.3333,
+          0.359,
+          0.3846,
+          0.4103,
+          0.4359,
+          0.4615,
+          0.4872,
+          0.5128,
+          0.5385,
+          0.5641,
+          0.5897,
+          0.6154,
+          0.641,
+          0.6667,
+          0.6923,
+          0.7179,
+          0.7436,
+          0.7692,
+          0.7949,
+          0.8205,
+          0.8462,
+          0.8718,
+          0.8974,
+          0.9231,
+          0.9487,
+          0.9744,
+          1.0
+        ],
+        "tpr": [
+          0.0,
+          0.9847,
+          0.987,
+          0.9875,
+          0.9877,
+          0.9882,
+          0.9885,
+          0.9889,
+          0.9892,
+          0.9896,
+          0.9899,
+          0.9903,
+          0.9906,
+          0.991,
+          0.9913,
+          0.9917,
+          0.992,
+          0.9924,
+          0.9927,
+          0.9931,
+          0.9934,
+          0.9938,
+          0.9941,
+          0.9944,
+          0.9948,
+          0.9951,
+          0.9955,
+          0.9958,
+          0.9962,
+          0.9965,
+          0.9969,
+          0.9972,
+          0.9976,
+          0.9979,
+          0.9983,
+          0.9986,
+          0.999,
+          0.9993,
+          0.9997,
+          1.0
+        ]
+      },
+      "per_class_metrics": {
+        "Normal": {
+          "precision": 0.9831,
+          "recall": 0.981,
+          "f1_score": 0.982,
+          "support": 946
+        },
+        "DoS": {
+          "precision": 0.9985,
+          "recall": 0.9969,
+          "f1_score": 0.9977,
+          "support": 649
+        },
+        "Probe": {
+          "precision": 0.9879,
+          "recall": 0.9477,
+          "f1_score": 0.9674,
+          "support": 172
+        },
+        "R2L": {
+          "precision": 0.9595,
+          "recall": 0.9867,
+          "f1_score": 0.9729,
+          "support": 600
+        },
+        "U2R": {
+          "precision": 0.8846,
+          "recall": 0.697,
+          "f1_score": 0.7797,
+          "support": 33
+        }
+      },
+      "classification_report_text": "              precision    recall  f1-score   support\n\n      Normal       0.98      0.98      0.98       946\n         DoS       1.00      1.00      1.00       649\n       Probe       0.99      0.95      0.97       172\n         R2L       0.96      0.99      0.97       600\n         U2R       0.88      0.70      0.78        33\n\n    accuracy                           0.98      2400\n   macro avg       0.96      0.92      0.94      2400\nweighted avg       0.98      0.98      0.98      2400\n",
+      "best_params": {
+        "class_weight": "balanced_subsample",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_split": 2,
+        "n_estimators": 150
+      }
+    },
+    "voting": {
+      "model_name": "Soft Voting Ensemble (RF + ET + HGB)",
+      "accuracy": 0.9838,
+      "precision": 0.9836,
+      "recall": 0.9838,
+      "f1_score": 0.9835,
+      "roc_auc": 0.9979,
+      "training_time_sec": 4.7869,
+      "inference_time_total_sec": 0.1226,
+      "inference_time_ms_per_sample": 0.0511,
+      "confusion_matrix": [
+        [
+          933,
+          1,
+          2,
+          9,
+          1
+        ],
+        [
+          0,
+          648,
+          0,
+          1,
+          0
+        ],
+        [
+          7,
+          0,
+          163,
+          2,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          593,
+          2
+        ],
+        [
+          4,
+          0,
+          0,
+          5,
+          24
+        ]
+      ],
+      "roc_curve": {
+        "fpr": [
+          0.0,
+          0.0256,
+          0.0513,
+          0.0769,
+          0.1026,
+          0.1282,
+          0.1538,
+          0.1795,
+          0.2051,
+          0.2308,
+          0.2564,
+          0.2821,
+          0.3077,
+          0.3333,
+          0.359,
+          0.3846,
+          0.4103,
+          0.4359,
+          0.4615,
+          0.4872,
+          0.5128,
+          0.5385,
+          0.5641,
+          0.5897,
+          0.6154,
+          0.641,
+          0.6667,
+          0.6923,
+          0.7179,
+          0.7436,
+          0.7692,
+          0.7949,
+          0.8205,
+          0.8462,
+          0.8718,
+          0.8974,
+          0.9231,
+          0.9487,
+          0.9744,
+          1.0
+        ],
+        "tpr": [
+          0.0,
+          0.9849,
+          0.9875,
+          0.9877,
+          0.9937,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "per_class_metrics": {
+        "Normal": {
+          "precision": 0.9831,
+          "recall": 0.9863,
+          "f1_score": 0.9847,
+          "support": 946
+        },
+        "DoS": {
+          "precision": 0.9985,
+          "recall": 0.9985,
+          "f1_score": 0.9985,
+          "support": 649
+        },
+        "Probe": {
+          "precision": 0.9879,
+          "recall": 0.9477,
+          "f1_score": 0.9674,
+          "support": 172
+        },
+        "R2L": {
+          "precision": 0.9721,
+          "recall": 0.9883,
+          "f1_score": 0.9802,
+          "support": 600
+        },
+        "U2R": {
+          "precision": 0.8889,
+          "recall": 0.7273,
+          "f1_score": 0.8,
+          "support": 33
+        }
+      },
+      "classification_report_text": "              precision    recall  f1-score   support\n\n      Normal       0.98      0.99      0.98       946\n         DoS       1.00      1.00      1.00       649\n       Probe       0.99      0.95      0.97       172\n         R2L       0.97      0.99      0.98       600\n         U2R       0.89      0.73      0.80        33\n\n    accuracy                           0.98      2400\n   macro avg       0.97      0.93      0.95      2400\nweighted avg       0.98      0.98      0.98      2400\n",
+      "best_params": {
+        "estimators": [
+          "TunedRandomForest(220)",
+          "ExtraTrees(180)",
+          "HistGradientBoosting(150)"
+        ],
+        "voting": "soft",
+        "weights": [
+          2.5,
+          2.5,
+          1.5
+        ],
+        "features_count": 15
+      }
+    },
+    "stacking": {
+      "model_name": "Stacking Ensemble (RF + ET + HGB -> LR)",
+      "accuracy": 0.9804,
+      "precision": 0.9804,
+      "recall": 0.9804,
+      "f1_score": 0.9801,
+      "roc_auc": 0.9902,
+      "training_time_sec": 12.4848,
+      "inference_time_total_sec": 0.1149,
+      "inference_time_ms_per_sample": 0.0479,
+      "confusion_matrix": [
+        [
+          931,
+          1,
+          2,
+          12,
+          0
+        ],
+        [
+          0,
+          642,
+          7,
+          0,
+          0
+        ],
+        [
+          6,
+          1,
+          163,
+          2,
+          0
+        ],
+        [
+          4,
+          1,
+          0,
+          594,
+          1
+        ],
+        [
+          3,
+          1,
+          0,
+          6,
+          23
+        ]
+      ],
+      "roc_curve": {
+        "fpr": [
+          0.0,
+          0.0256,
+          0.0513,
+          0.0769,
+          0.1026,
+          0.1282,
+          0.1538,
+          0.1795,
+          0.2051,
+          0.2308,
+          0.2564,
+          0.2821,
+          0.3077,
+          0.3333,
+          0.359,
+          0.3846,
+          0.4103,
+          0.4359,
+          0.4615,
+          0.4872,
+          0.5128,
+          0.5385,
+          0.5641,
+          0.5897,
+          0.6154,
+          0.641,
+          0.6667,
+          0.6923,
+          0.7179,
+          0.7436,
+          0.7692,
+          0.7949,
+          0.8205,
+          0.8462,
+          0.8718,
+          0.8974,
+          0.9231,
+          0.9487,
+          0.9744,
+          1.0
+        ],
+        "tpr": [
+          0.0,
+          0.9755,
+          0.9849,
+          0.9863,
+          0.9865,
+          0.9867,
+          0.9867,
+          0.9867,
+          0.9867,
+          0.9867,
+          0.9867,
+          0.9867,
+          0.9867,
+          0.9867,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9879,
+          0.9939,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "per_class_metrics": {
+        "Normal": {
+          "precision": 0.9862,
+          "recall": 0.9841,
+          "f1_score": 0.9852,
+          "support": 946
+        },
+        "DoS": {
+          "precision": 0.9938,
+          "recall": 0.9892,
+          "f1_score": 0.9915,
+          "support": 649
+        },
+        "Probe": {
+          "precision": 0.9477,
+          "recall": 0.9477,
+          "f1_score": 0.9477,
+          "support": 172
+        },
+        "R2L": {
+          "precision": 0.9674,
+          "recall": 0.99,
+          "f1_score": 0.9786,
+          "support": 600
+        },
+        "U2R": {
+          "precision": 0.9583,
+          "recall": 0.697,
+          "f1_score": 0.807,
+          "support": 33
+        }
+      },
+      "classification_report_text": "              precision    recall  f1-score   support\n\n      Normal       0.99      0.98      0.99       946\n         DoS       0.99      0.99      0.99       649\n       Probe       0.95      0.95      0.95       172\n         R2L       0.97      0.99      0.98       600\n         U2R       0.96      0.70      0.81        33\n\n    accuracy                           0.98      2400\n   macro avg       0.97      0.92      0.94      2400\nweighted avg       0.98      0.98      0.98      2400\n",
+      "best_params": {
+        "base_learners": [
+          "TunedRF(140)",
+          "ExtraTrees(140)",
+          "HistGB(120)"
+        ],
+        "meta_learner": "LogisticRegression(C=2.0)",
+        "cv_stack": 3,
+        "features_count": 15
+      }
+    }
+  },
+  "selected_features": [
+    "src_bytes",
+    "bytes_ratio",
+    "service",
+    "packet_rate",
+    "dst_bytes",
+    "count",
+    "srv_count",
+    "dst_host_srv_count",
+    "connection_density",
+    "dst_host_same_src_port_rate",
+    "dst_host_diff_srv_rate",
+    "logged_in",
+    "root_shell",
+    "hot",
+    "flag"
+  ],
+  "top_15_features": [
+    {
+      "feature": "src_bytes",
+      "rf_importance": 0.12998,
+      "mutual_info": 0.88712,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 1.0
+    },
+    {
+      "feature": "bytes_ratio",
+      "rf_importance": 0.07104,
+      "mutual_info": 0.79207,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.7638
+    },
+    {
+      "feature": "service",
+      "rf_importance": 0.07789,
+      "mutual_info": 0.69433,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.75445
+    },
+    {
+      "feature": "packet_rate",
+      "rf_importance": 0.07482,
+      "mutual_info": 0.61556,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.71718
+    },
+    {
+      "feature": "dst_bytes",
+      "rf_importance": 0.06989,
+      "mutual_info": 0.6137,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.69947
+    },
+    {
+      "feature": "count",
+      "rf_importance": 0.04974,
+      "mutual_info": 0.44271,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.57192
+    },
+    {
+      "feature": "srv_count",
+      "rf_importance": 0.04647,
+      "mutual_info": 0.44585,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.56164
+    },
+    {
+      "feature": "dst_host_srv_count",
+      "rf_importance": 0.05239,
+      "mutual_info": 0.36819,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.5559
+    },
+    {
+      "feature": "connection_density",
+      "rf_importance": 0.03231,
+      "mutual_info": 0.50565,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.53287
+    },
+    {
+      "feature": "dst_host_same_src_port_rate",
+      "rf_importance": 0.05341,
+      "mutual_info": 0.26392,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.52414
+    },
+    {
+      "feature": "dst_host_diff_srv_rate",
+      "rf_importance": 0.03431,
+      "mutual_info": 0.45615,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.52303
+    },
+    {
+      "feature": "logged_in",
+      "rf_importance": 0.04503,
+      "mutual_info": 0.29476,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.50558
+    },
+    {
+      "feature": "dst_host_rerror_rate",
+      "rf_importance": 0.03212,
+      "mutual_info": 0.28592,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.45787
+    },
+    {
+      "feature": "dst_host_serror_rate",
+      "rf_importance": 0.02416,
+      "mutual_info": 0.34601,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.45065
+    },
+    {
+      "feature": "dst_host_srv_serror_rate",
+      "rf_importance": 0.02606,
+      "mutual_info": 0.30603,
+      "rfe_selected": true,
+      "rfe_rank": 1,
+      "combined_score": 0.4437
+    }
+  ],
+  "class_labels": [
+    "Normal",
+    "DoS",
+    "Probe",
+    "R2L",
+    "U2R"
+  ],
+  "class_counts_before_smote": {
+    "Normal": 4416,
+    "DoS": 3027,
+    "Probe": 802,
+    "R2L": 2799,
+    "U2R": 156
+  },
+  "class_counts_after_smote": {
+    "Normal": 4416,
+    "DoS": 4416,
+    "Probe": 4416,
+    "R2L": 4416,
+    "U2R": 4416
+  },
+  "dataset_summary": {
+    "train_samples_smote": 22080,
+    "train_samples_raw": 11200,
+    "val_samples": 2400,
+    "test_samples": 2400
+  },
+  "ann_training_history": {
+    "train_loss": [
+      0.5765228014665269,
+      0.32034846204642575,
+      0.26072322538750714,
+      0.23414274229530405,
+      0.2100756297639083,
+      0.19688842205509555,
+      0.18215601831297396,
+      0.168867509705923,
+      0.1638270908270187,
+      0.1549842400922804,
+      0.1459817354317352,
+      0.14458423373201712,
+      0.14182482605095287,
+      0.1316753963814841,
+      0.12603879804753415,
+      0.12440741123108329,
+      0.1265627428472867,
+      0.11716750209360491,
+      0.11647406375920774,
+      0.10979467740397429,
+      0.10910732925470853,
+      0.09997100389759733,
+      0.10304062354721587,
+      0.10094850609600918,
+      0.09767129618484796,
+      0.09356715365417581,
+      0.09044413339635606,
+      0.09054486716849433,
+      0.09097575081727771,
+      0.09006414974522213,
+      0.08896383283247447,
+      0.088380031666856,
+      0.08805105102560509,
+      0.08471201853452667,
+      0.08779783186439248
+    ],
+    "val_loss": [
+      0.388956885819802,
+      0.30894968377656457,
+      0.25642142076162033,
+      0.24895717956477406,
+      0.23479732914939264,
+      0.21513696547838607,
+      0.20968620736668114,
+      0.21975365893028104,
+      0.19047791519618817,
+      0.18646111377976501,
+      0.18988641035229498,
+      0.1848198606776541,
+      0.16993205222192634,
+      0.17317047957660983,
+      0.17062175820976616,
+      0.16618111363816743,
+      0.16994172891601442,
+      0.16351389416373163,
+      0.15029236729629328,
+      0.14849449184032446,
+      0.13862650374355834,
+      0.14057976046666887,
+      0.14631146410623172,
+      0.1377485206813794,
+      0.13197480925919866,
+      0.13494215938703222,
+      0.1359179706920876,
+      0.13951910442802518,
+      0.12156949613247439,
+      0.12270886448348146,
+      0.13661949247692004,
+      0.13590611840370545,
+      0.13284008949726045,
+      0.1463478485163157,
+      0.13214606764267767
+    ],
+    "val_accuracy": [
+      0.86,
+      0.8858333333333334,
+      0.9120833333333334,
+      0.9195833333333333,
+      0.9254166666666667,
+      0.9304166666666667,
+      0.9329166666666666,
+      0.9304166666666667,
+      0.93875,
+      0.94625,
+      0.94,
+      0.9441666666666667,
+      0.9483333333333334,
+      0.9466666666666667,
+      0.94625,
+      0.9516666666666667,
+      0.9495833333333333,
+      0.95375,
+      0.9570833333333333,
+      0.96,
+      0.9608333333333333,
+      0.96125,
+      0.96,
+      0.9595833333333333,
+      0.9629166666666666,
+      0.9616666666666667,
+      0.9620833333333333,
+      0.9608333333333333,
+      0.9654166666666667,
+      0.9666666666666667,
+      0.9608333333333333,
+      0.965,
+      0.9641666666666666,
+      0.9625,
+      0.9633333333333334
+    ]
+  },
+  "optimization_report": {
+    "before_vs_after": {
+      "before": {
+        "model_name": "Random Forest (GridSearchCV)",
+        "feature_count": 25,
+        "accuracy": 0.9867,
+        "precision": 0.9866,
+        "recall": 0.9867,
+        "f1_score": 0.9866,
+        "roc_auc": 0.9986,
+        "cv_10_mean_f1": 0.9852,
+        "cv_10_std_f1": 0.0033,
+        "inference_time_ms_per_sample": 0.0051
+      },
+      "after": {
+        "model_key": "voting",
+        "model_name": "Soft Voting Ensemble (RF + ET + HGB)",
+        "feature_count": 15,
+        "accuracy": 0.9838,
+        "precision": 0.9836,
+        "recall": 0.9838,
+        "f1_score": 0.9835,
+        "roc_auc": 0.9979,
+        "cv_10_mean_f1": 0.9871,
+        "cv_10_std_f1": 0.0029,
+        "inference_time_ms_per_sample": 0.0511
+      },
+      "deltas": {
+        "accuracy_diff_pct": -0.29,
+        "f1_diff_pct": -0.31,
+        "cv_10_f1_diff_pct": 0.19,
+        "dimension_reduction_pct": 40.0,
+        "total_dimension_reduction_pct": 65.12
+      }
+    },
+    "dimensionality_reduction": {
+      "original_feature_count": 43,
+      "phase2_feature_count": 25,
+      "reduced_feature_count": 15,
+      "reduction_from_original_pct": 65.12,
+      "reduction_from_baseline_pct": 40.0,
+      "reduced_features": [
+        "src_bytes",
+        "bytes_ratio",
+        "service",
+        "packet_rate",
+        "dst_bytes",
+        "count",
+        "srv_count",
+        "dst_host_srv_count",
+        "connection_density",
+        "dst_host_same_src_port_rate",
+        "dst_host_diff_srv_rate",
+        "logged_in",
+        "root_shell",
+        "hot",
+        "flag"
+      ],
+      "ranking_top_15": [
+        {
+          "feature": "src_bytes",
+          "rf_importance": 0.12998,
+          "mutual_info": 0.88712,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 1.0
+        },
+        {
+          "feature": "bytes_ratio",
+          "rf_importance": 0.07104,
+          "mutual_info": 0.79207,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.7638
+        },
+        {
+          "feature": "service",
+          "rf_importance": 0.07789,
+          "mutual_info": 0.69433,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.75445
+        },
+        {
+          "feature": "packet_rate",
+          "rf_importance": 0.07482,
+          "mutual_info": 0.61556,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.71718
+        },
+        {
+          "feature": "dst_bytes",
+          "rf_importance": 0.06989,
+          "mutual_info": 0.6137,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.69947
+        },
+        {
+          "feature": "count",
+          "rf_importance": 0.04974,
+          "mutual_info": 0.44271,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.57192
+        },
+        {
+          "feature": "srv_count",
+          "rf_importance": 0.04647,
+          "mutual_info": 0.44585,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.56164
+        },
+        {
+          "feature": "dst_host_srv_count",
+          "rf_importance": 0.05239,
+          "mutual_info": 0.36819,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.5559
+        },
+        {
+          "feature": "connection_density",
+          "rf_importance": 0.03231,
+          "mutual_info": 0.50565,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.53287
+        },
+        {
+          "feature": "dst_host_same_src_port_rate",
+          "rf_importance": 0.05341,
+          "mutual_info": 0.26392,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.52414
+        },
+        {
+          "feature": "dst_host_diff_srv_rate",
+          "rf_importance": 0.03431,
+          "mutual_info": 0.45615,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.52303
+        },
+        {
+          "feature": "logged_in",
+          "rf_importance": 0.04503,
+          "mutual_info": 0.29476,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.50558
+        },
+        {
+          "feature": "dst_host_rerror_rate",
+          "rf_importance": 0.03212,
+          "mutual_info": 0.28592,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.45787
+        },
+        {
+          "feature": "dst_host_serror_rate",
+          "rf_importance": 0.02416,
+          "mutual_info": 0.34601,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.45065
+        },
+        {
+          "feature": "dst_host_srv_serror_rate",
+          "rf_importance": 0.02606,
+          "mutual_info": 0.30603,
+          "rfe_selected": true,
+          "rfe_rank": 1,
+          "combined_score": 0.4437
+        }
+      ]
+    },
+    "cv_10_fold_results": {
+      "baseline_rf": {
+        "model_name": "Baseline Random Forest (Before)",
+        "k_folds": 10,
+        "fold_f1_scores": [
+          0.9784,
+          0.9877,
+          0.9877,
+          0.9846,
+          0.9876,
+          0.9846,
+          0.9892,
+          0.9877,
+          0.9815,
+          0.983
+        ],
+        "fold_accuracy_scores": [
+          0.9785,
+          0.9877,
+          0.9877,
+          0.9846,
+          0.9877,
+          0.9846,
+          0.9892,
+          0.9877,
+          0.9815,
+          0.9831
+        ],
+        "mean_f1": 0.9852,
+        "std_f1": 0.0033,
+        "mean_accuracy": 0.9852,
+        "std_accuracy": 0.0032
+      },
+      "tuned_rf": {
+        "model_name": "Tuned Random Forest (15-Feat)",
+        "k_folds": 10,
+        "fold_f1_scores": [
+          0.9799,
+          0.9862,
+          0.9908,
+          0.9831,
+          0.9831,
+          0.9784,
+          0.9877,
+          0.9892,
+          0.9815,
+          0.983
+        ],
+        "fold_accuracy_scores": [
+          0.98,
+          0.9862,
+          0.9908,
+          0.9831,
+          0.9831,
+          0.9785,
+          0.9877,
+          0.9892,
+          0.9815,
+          0.9831
+        ],
+        "mean_f1": 0.9843,
+        "std_f1": 0.0038,
+        "mean_accuracy": 0.9843,
+        "std_accuracy": 0.0038
+      },
+      "voting": {
+        "model_name": "Soft Voting Ensemble",
+        "k_folds": 10,
+        "fold_f1_scores": [
+          0.9876,
+          0.9923,
+          0.9877,
+          0.9861,
+          0.9877,
+          0.9815,
+          0.9908,
+          0.9862,
+          0.9846,
+          0.9861
+        ],
+        "fold_accuracy_scores": [
+          0.9877,
+          0.9923,
+          0.9877,
+          0.9862,
+          0.9877,
+          0.9815,
+          0.9908,
+          0.9862,
+          0.9846,
+          0.9862
+        ],
+        "mean_f1": 0.9871,
+        "std_f1": 0.0029,
+        "mean_accuracy": 0.9871,
+        "std_accuracy": 0.0029
+      },
+      "stacking": {
+        "model_name": "Stacking Ensemble",
+        "k_folds": 10,
+        "fold_f1_scores": [
+          0.9877,
+          0.9908,
+          0.9892,
+          0.9892,
+          0.9908,
+          0.9846,
+          0.9908,
+          0.9862,
+          0.9831,
+          0.9861
+        ],
+        "fold_accuracy_scores": [
+          0.9877,
+          0.9908,
+          0.9892,
+          0.9892,
+          0.9908,
+          0.9846,
+          0.9908,
+          0.9862,
+          0.9831,
+          0.9862
+        ],
+        "mean_f1": 0.9879,
+        "std_f1": 0.0026,
+        "mean_accuracy": 0.9878,
+        "std_accuracy": 0.0026
+      }
+    },
+    "ensemble_candidates": {
+      "tuned_rf": {
+        "model_name": "Tuned Random Forest (15-Feat)",
+        "accuracy": 0.9804,
+        "precision": 0.9803,
+        "recall": 0.9804,
+        "f1_score": 0.9801,
+        "roc_auc": 0.9924,
+        "training_time_sec": 43.5626,
+        "inference_time_total_sec": 0.0393,
+        "inference_time_ms_per_sample": 0.0164,
+        "confusion_matrix": [
+          [
+            928,
+            1,
+            2,
+            14,
+            1
+          ],
+          [
+            0,
+            647,
+            0,
+            2,
+            0
+          ],
+          [
+            7,
+            0,
+            163,
+            2,
+            0
+          ],
+          [
+            6,
+            0,
+            0,
+            592,
+            2
+          ],
+          [
+            3,
+            0,
+            0,
+            7,
+            23
+          ]
+        ],
+        "roc_curve": {
+          "fpr": [
+            0.0,
+            0.0256,
+            0.0513,
+            0.0769,
+            0.1026,
+            0.1282,
+            0.1538,
+            0.1795,
+            0.2051,
+            0.2308,
+            0.2564,
+            0.2821,
+            0.3077,
+            0.3333,
+            0.359,
+            0.3846,
+            0.4103,
+            0.4359,
+            0.4615,
+            0.4872,
+            0.5128,
+            0.5385,
+            0.5641,
+            0.5897,
+            0.6154,
+            0.641,
+            0.6667,
+            0.6923,
+            0.7179,
+            0.7436,
+            0.7692,
+            0.7949,
+            0.8205,
+            0.8462,
+            0.8718,
+            0.8974,
+            0.9231,
+            0.9487,
+            0.9744,
+            1.0
+          ],
+          "tpr": [
+            0.0,
+            0.9847,
+            0.987,
+            0.9875,
+            0.9877,
+            0.9882,
+            0.9885,
+            0.9889,
+            0.9892,
+            0.9896,
+            0.9899,
+            0.9903,
+            0.9906,
+            0.991,
+            0.9913,
+            0.9917,
+            0.992,
+            0.9924,
+            0.9927,
+            0.9931,
+            0.9934,
+            0.9938,
+            0.9941,
+            0.9944,
+            0.9948,
+            0.9951,
+            0.9955,
+            0.9958,
+            0.9962,
+            0.9965,
+            0.9969,
+            0.9972,
+            0.9976,
+            0.9979,
+            0.9983,
+            0.9986,
+            0.999,
+            0.9993,
+            0.9997,
+            1.0
+          ]
+        },
+        "per_class_metrics": {
+          "Normal": {
+            "precision": 0.9831,
+            "recall": 0.981,
+            "f1_score": 0.982,
+            "support": 946
+          },
+          "DoS": {
+            "precision": 0.9985,
+            "recall": 0.9969,
+            "f1_score": 0.9977,
+            "support": 649
+          },
+          "Probe": {
+            "precision": 0.9879,
+            "recall": 0.9477,
+            "f1_score": 0.9674,
+            "support": 172
+          },
+          "R2L": {
+            "precision": 0.9595,
+            "recall": 0.9867,
+            "f1_score": 0.9729,
+            "support": 600
+          },
+          "U2R": {
+            "precision": 0.8846,
+            "recall": 0.697,
+            "f1_score": 0.7797,
+            "support": 33
+          }
+        },
+        "classification_report_text": "              precision    recall  f1-score   support\n\n      Normal       0.98      0.98      0.98       946\n         DoS       1.00      1.00      1.00       649\n       Probe       0.99      0.95      0.97       172\n         R2L       0.96      0.99      0.97       600\n         U2R       0.88      0.70      0.78        33\n\n    accuracy                           0.98      2400\n   macro avg       0.96      0.92      0.94      2400\nweighted avg       0.98      0.98      0.98      2400\n",
+        "best_params": {
+          "class_weight": "balanced_subsample",
+          "max_depth": null,
+          "max_features": "sqrt",
+          "min_samples_split": 2,
+          "n_estimators": 150
+        }
+      },
+      "voting": {
+        "model_name": "Soft Voting Ensemble (RF + ET + HGB)",
+        "accuracy": 0.9838,
+        "precision": 0.9836,
+        "recall": 0.9838,
+        "f1_score": 0.9835,
+        "roc_auc": 0.9979,
+        "training_time_sec": 4.7869,
+        "inference_time_total_sec": 0.1226,
+        "inference_time_ms_per_sample": 0.0511,
+        "confusion_matrix": [
+          [
+            933,
+            1,
+            2,
+            9,
+            1
+          ],
+          [
+            0,
+            648,
+            0,
+            1,
+            0
+          ],
+          [
+            7,
+            0,
+            163,
+            2,
+            0
+          ],
+          [
+            5,
+            0,
+            0,
+            593,
+            2
+          ],
+          [
+            4,
+            0,
+            0,
+            5,
+            24
+          ]
+        ],
+        "roc_curve": {
+          "fpr": [
+            0.0,
+            0.0256,
+            0.0513,
+            0.0769,
+            0.1026,
+            0.1282,
+            0.1538,
+            0.1795,
+            0.2051,
+            0.2308,
+            0.2564,
+            0.2821,
+            0.3077,
+            0.3333,
+            0.359,
+            0.3846,
+            0.4103,
+            0.4359,
+            0.4615,
+            0.4872,
+            0.5128,
+            0.5385,
+            0.5641,
+            0.5897,
+            0.6154,
+            0.641,
+            0.6667,
+            0.6923,
+            0.7179,
+            0.7436,
+            0.7692,
+            0.7949,
+            0.8205,
+            0.8462,
+            0.8718,
+            0.8974,
+            0.9231,
+            0.9487,
+            0.9744,
+            1.0
+          ],
+          "tpr": [
+            0.0,
+            0.9849,
+            0.9875,
+            0.9877,
+            0.9937,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "per_class_metrics": {
+          "Normal": {
+            "precision": 0.9831,
+            "recall": 0.9863,
+            "f1_score": 0.9847,
+            "support": 946
+          },
+          "DoS": {
+            "precision": 0.9985,
+            "recall": 0.9985,
+            "f1_score": 0.9985,
+            "support": 649
+          },
+          "Probe": {
+            "precision": 0.9879,
+            "recall": 0.9477,
+            "f1_score": 0.9674,
+            "support": 172
+          },
+          "R2L": {
+            "precision": 0.9721,
+            "recall": 0.9883,
+            "f1_score": 0.9802,
+            "support": 600
+          },
+          "U2R": {
+            "precision": 0.8889,
+            "recall": 0.7273,
+            "f1_score": 0.8,
+            "support": 33
+          }
+        },
+        "classification_report_text": "              precision    recall  f1-score   support\n\n      Normal       0.98      0.99      0.98       946\n         DoS       1.00      1.00      1.00       649\n       Probe       0.99      0.95      0.97       172\n         R2L       0.97      0.99      0.98       600\n         U2R       0.89      0.73      0.80        33\n\n    accuracy                           0.98      2400\n   macro avg       0.97      0.93      0.95      2400\nweighted avg       0.98      0.98      0.98      2400\n",
+        "best_params": {
+          "estimators": [
+            "TunedRandomForest(220)",
+            "ExtraTrees(180)",
+            "HistGradientBoosting(150)"
+          ],
+          "voting": "soft",
+          "weights": [
+            2.5,
+            2.5,
+            1.5
+          ],
+          "features_count": 15
+        }
+      },
+      "stacking": {
+        "model_name": "Stacking Ensemble (RF + ET + HGB -> LR)",
+        "accuracy": 0.9804,
+        "precision": 0.9804,
+        "recall": 0.9804,
+        "f1_score": 0.9801,
+        "roc_auc": 0.9902,
+        "training_time_sec": 12.4848,
+        "inference_time_total_sec": 0.1149,
+        "inference_time_ms_per_sample": 0.0479,
+        "confusion_matrix": [
+          [
+            931,
+            1,
+            2,
+            12,
+            0
+          ],
+          [
+            0,
+            642,
+            7,
+            0,
+            0
+          ],
+          [
+            6,
+            1,
+            163,
+            2,
+            0
+          ],
+          [
+            4,
+            1,
+            0,
+            594,
+            1
+          ],
+          [
+            3,
+            1,
+            0,
+            6,
+            23
+          ]
+        ],
+        "roc_curve": {
+          "fpr": [
+            0.0,
+            0.0256,
+            0.0513,
+            0.0769,
+            0.1026,
+            0.1282,
+            0.1538,
+            0.1795,
+            0.2051,
+            0.2308,
+            0.2564,
+            0.2821,
+            0.3077,
+            0.3333,
+            0.359,
+            0.3846,
+            0.4103,
+            0.4359,
+            0.4615,
+            0.4872,
+            0.5128,
+            0.5385,
+            0.5641,
+            0.5897,
+            0.6154,
+            0.641,
+            0.6667,
+            0.6923,
+            0.7179,
+            0.7436,
+            0.7692,
+            0.7949,
+            0.8205,
+            0.8462,
+            0.8718,
+            0.8974,
+            0.9231,
+            0.9487,
+            0.9744,
+            1.0
+          ],
+          "tpr": [
+            0.0,
+            0.9755,
+            0.9849,
+            0.9863,
+            0.9865,
+            0.9867,
+            0.9867,
+            0.9867,
+            0.9867,
+            0.9867,
+            0.9867,
+            0.9867,
+            0.9867,
+            0.9867,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9879,
+            0.9939,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "per_class_metrics": {
+          "Normal": {
+            "precision": 0.9862,
+            "recall": 0.9841,
+            "f1_score": 0.9852,
+            "support": 946
+          },
+          "DoS": {
+            "precision": 0.9938,
+            "recall": 0.9892,
+            "f1_score": 0.9915,
+            "support": 649
+          },
+          "Probe": {
+            "precision": 0.9477,
+            "recall": 0.9477,
+            "f1_score": 0.9477,
+            "support": 172
+          },
+          "R2L": {
+            "precision": 0.9674,
+            "recall": 0.99,
+            "f1_score": 0.9786,
+            "support": 600
+          },
+          "U2R": {
+            "precision": 0.9583,
+            "recall": 0.697,
+            "f1_score": 0.807,
+            "support": 33
+          }
+        },
+        "classification_report_text": "              precision    recall  f1-score   support\n\n      Normal       0.99      0.98      0.99       946\n         DoS       0.99      0.99      0.99       649\n       Probe       0.95      0.95      0.95       172\n         R2L       0.97      0.99      0.98       600\n         U2R       0.96      0.70      0.81        33\n\n    accuracy                           0.98      2400\n   macro avg       0.97      0.92      0.94      2400\nweighted avg       0.98      0.98      0.98      2400\n",
+        "best_params": {
+          "base_learners": [
+            "TunedRF(140)",
+            "ExtraTrees(140)",
+            "HistGB(120)"
+          ],
+          "meta_learner": "LogisticRegression(C=2.0)",
+          "cv_stack": 3,
+          "features_count": 15
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SentinelML — Intrusion Detection System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    if (window.tailwind) {
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            }
+          }
+        }
+      };
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    html, body {
+      background-color: #09090b !important;
+      color: #f4f4f5 !important;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col selection:bg-sky-500/20 selection:text-sky-300 antialiased">
+
+  <!-- Minimalist Top Navigation Header -->
+  <header class="sticky top-0 z-40 border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <!-- Brand -->
+      <a href="/" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:border-zinc-700 transition">
+          <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+          </svg>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold tracking-tight text-zinc-100 text-sm">SentinelML</span>
+        </div>
+      </a>
+
+      <!-- Minimalist Segmented Navigation -->
+      <nav class="flex items-center gap-1 p-1 rounded-lg bg-zinc-900/80 border border-zinc-800/80">
+        <a href="/" class="px-3.5 py-1.5 rounded-md text-xs font-medium transition {{ 'bg-zinc-800 text-zinc-100 shadow-sm' if active_page == 'dashboard' else 'text-zinc-400 hover:text-zinc-200' }}">
+          Overview
+        </a>
+        <a href="/monitor" class="px-3.5 py-1.5 rounded-md text-xs font-medium transition {{ 'bg-zinc-800 text-zinc-100 shadow-sm' if active_page == 'monitor' else 'text-zinc-400 hover:text-zinc-200' }}">
+          Live Monitor
+        </a>
+        <a href="/analytics" class="px-3.5 py-1.5 rounded-md text-xs font-medium transition {{ 'bg-zinc-800 text-zinc-100 shadow-sm' if active_page == 'analytics' else 'text-zinc-400 hover:text-zinc-200' }}">
+          Analytics
+        </a>
+        <a href="/upload" class="px-3.5 py-1.5 rounded-md text-xs font-medium transition {{ 'bg-zinc-800 text-zinc-100 shadow-sm' if active_page == 'upload' else 'text-zinc-400 hover:text-zinc-200' }}">
+          Batch Analysis
+        </a>
+      </nav>
+
+      <!-- System Protection Status Pill -->
+      <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-medium text-emerald-400">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Threat Defense Active</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Minimalist Footer -->
+  <footer class="border-t border-zinc-900/80 py-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
+      <span>SentinelML · Real-Time Threat Intelligence &amp; Autonomous Defense</span>
+      <span>Continuous Security Telemetry</span>
+    </div>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
